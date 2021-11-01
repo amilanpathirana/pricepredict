@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import pandas as pd
-import pickle
+import _pickle as pickle
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
 import joblib
@@ -61,3 +61,8 @@ def calculate():
     print(prediction)'''
 
     return render_template('results.html', data=idf["make"])
+
+
+
+if __name__=='__main__':
+    app.run(debug=True,host='0.0.0.0')
