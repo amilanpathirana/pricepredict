@@ -28,7 +28,7 @@ def index():
     return render_template('index.html', makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
 
 
-@app.route('/calculate', methods=['POST'])
+@app.route('/calculate', methods=['POST','GET'])
 def calculate():
     name = request.form.get('name')
     email = request.form.get('email')
@@ -60,7 +60,7 @@ def calculate():
 
     print(prediction)'''
 
-    return render_template('results.html', prediction=100000)
+    return render_template('results.html', prediction=km)
 
 
 
