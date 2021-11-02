@@ -60,7 +60,7 @@ def calculate():
 
     print(prediction)'''
 
-    return render_template('results.html', data=idf["make"])
+    return render_template('results.html', prediction=100000)
 
 
 
