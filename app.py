@@ -60,7 +60,7 @@ def calculate():
 
     print(prediction)'''
 
-    return render_template('results.html', prediction=km)
+    return render_template('results.html', prediction=year)
 
 
 
