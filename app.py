@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request
 import pandas as pd
-import _pickle as pickle
+import pickle as pickle
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
-import joblib
+
+from flask_pymongo import PyMongo
+mongo=PyMongo()
+
 
 
 MAKES = [
@@ -21,6 +24,10 @@ MILEAGE = list(range(100, 5000, 100))
 
 
 app = Flask(__name__)
+
+app.config['MONGO_URI'] = 'mongodb+srv://amila:amila123@cluster0.wpswh.mongodb.net/mydb?retryWrites=true&w=majority'
+
+mongo.init_app(app)
 
 
 @app.route("/", methods=["GET", 'POST'])
@@ -59,6 +66,12 @@ def calculate():
     prediction = round(preds[0])
 
     print(prediction)'''
+
+    collection=mongo.db.userinputs
+    input_item= data
+    collection.insert_one({"userinputdata" : input_item})
+
+
 
     return render_template('results.html', prediction=year)
 
