@@ -69,7 +69,7 @@ def calculate():
 
     collection=mongo.db.userinputs
     input_item= data
-    collection.insert_one({"userinputdata" : input_item})
+    collection.insert_one({'name': name, 'email':email, "make" : make, 'model':model,'year':year,'mileage':km})
 
 
 
