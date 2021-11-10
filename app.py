@@ -23,8 +23,8 @@ MAKES = [
     'mazda']
 
 
-MODELS = ['Civic', 'CRV', 'HRV', 'Escape', 'fiesta', 'Edge', 'Cx3',
-          'Cx5', 'Cx7', 'Cx9', 'corolla', 'Rav4', 'Highlander', 'None']
+MODELS = ['civic', 'cr-v', 'hr-v', 'escape', 'fiesta', 'edge', 'cx-3',
+          'cx-5', 'cx-7', 'corolla', 'rav4', 'highlander']
 YEARS = list(range(1995, 2021))
 MILEAGE = list(range(100, 5000, 100))
 
