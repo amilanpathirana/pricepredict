@@ -3,8 +3,14 @@ import pandas as pd
 import pickle as pickle
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
-
+import joblib
 from flask_pymongo import PyMongo
+
+
+
+model1 = joblib.load('model.pkl')
+
+
 mongo=PyMongo()
 
 
@@ -17,8 +23,8 @@ MAKES = [
     'mazda']
 
 
-MODELS = ['Civic', 'CRV', 'HRV', 'Escape', 'Fiesta', 'Edge', 'Cx3',
-          'Cx5', 'Cx7', 'Cx9', 'Corolla', 'Rav4', 'Highlander', 'None']
+MODELS = ['Civic', 'CRV', 'HRV', 'Escape', 'fiesta', 'Edge', 'Cx3',
+          'Cx5', 'Cx7', 'Cx9', 'corolla', 'Rav4', 'Highlander', 'None']
 YEARS = list(range(1995, 2021))
 MILEAGE = list(range(100, 5000, 100))
 
@@ -43,22 +49,35 @@ def calculate():
     model = request.form.get('model')
     year = request.form.get('year')
     km = request.form.get('km')
-    data = [name, email, make, model, year, km]
+    data = [make, model,year, km]
 
-    print(type(make))
-    print(data)
-    idf = pd.DataFrame({'make': [make], 'year': [year], 'highwaympg': [
-        km], 'citympg': [km], 'enginehp': [year]})
+   
+    idf = pd.DataFrame({'make': [make], 'model': [model], 'year': [ year], 'citympg': [km]})
 
     idf.make = idf.make.str.strip().str.replace(" ", "")
+    idf.model= idf.model.str.strip().str.replace(" ", "")
 
-    pkl_file = open('label_encoder.pkl', 'rb')
-    le_departure = pickle.load(pkl_file)
-    pkl_file.close()
-    idf['make'] = le_departure.transform(idf['make'])
+    pkl_file1 = open('label_encoder_make.pkl', 'rb')
+    le_make = pickle.load(pkl_file1)
+    pkl_file1.close()
+    idf['make'] = le_make.transform(idf['make'])
 
-    image1 = np.array(idf)
+    pkl_file2 = open('label_encoder_model.pkl', 'rb')
+    le_model= pickle.load(pkl_file2)
+    pkl_file2.close()
+    idf['model'] = le_model.transform(idf['model'])
 
+    print(type(make))
+    print(idf)
+
+    modelin = np.array(idf)
+
+    preds = model1.predict(modelin)
+    print("Running local model")
+
+    prediction = round(preds[0])
+
+    print(prediction)
     '''
     preds = clf.predict(image1)
     print("Running local model")
@@ -73,7 +92,7 @@ def calculate():
 
 
 
-    return render_template('results.html', prediction=year)
+    return render_template('results.html', prediction=prediction)
 
 
 
