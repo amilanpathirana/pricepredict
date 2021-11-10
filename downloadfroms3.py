@@ -19,7 +19,8 @@ FILE_NAME3 = 'models/label_encoder_make.pkl'
 
 
 s3client.download_file(BUCKET_NAME,FILE_NAME1,OBJECT_NAME1)
+print('success')
 s3client.download_file(BUCKET_NAME,FILE_NAME2,OBJECT_NAME2)
+print('success')
 s3client.download_file(BUCKET_NAME,FILE_NAME3,OBJECT_NAME3)
-
 print('success')
