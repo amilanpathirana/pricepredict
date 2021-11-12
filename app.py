@@ -5,8 +5,9 @@ from sklearn.preprocessing import LabelEncoder
 import numpy as np
 import joblib
 from flask_pymongo import PyMongo
+import math
 
-
+price_range=1000
 
 model1 = joblib.load('model.pkl')
 
@@ -26,7 +27,7 @@ MAKES = [
 MODELS = ['civic', 'cr-v', 'hr-v', 'escape', 'fiesta', 'edge', 'cx-3',
           'cx-5', 'cx-7', 'corolla', 'rav4', 'highlander']
 YEARS = list(range(1995, 2021))
-MILEAGE = list(range(100, 5000, 100))
+MILEAGE = list(range(0, 500000, 10000))
 
 
 app = Flask(__name__)
@@ -49,7 +50,27 @@ def calculate():
     model = request.form.get('model')
     year = request.form.get('year')
     km = request.form.get('km')
-    data = [make, model,year, km]
+
+    if not name:
+        return render_template('index.html',message='Please Enter Name',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
+    
+    if not email:
+        return render_template('index.html',message='Please Enter Email',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
+
+    if not make:
+        return render_template('index.html',message='Please Enter Make',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
+
+    if not model:
+        return render_template('index.html',message='Please Enter Model',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
+
+    if not year:
+        return render_template('index.html',message='Please Enter Year',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
+
+    if not km:
+        return render_template('index.html',message='Please Enter Mileage',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
+
+
+
 
    
     idf = pd.DataFrame({'make': [make], 'model': [model], 'year': [ year], 'citympg': [km]})
@@ -74,25 +95,25 @@ def calculate():
 
     preds = model1.predict(modelin)
     print("Running local model")
-
     prediction = round(preds[0])
-
     print(prediction)
-    '''
-    preds = clf.predict(image1)
-    print("Running local model")
+    
+   
+    prediction_h =int(math.ceil(prediction / 1000.0)) * 1000 + price_range
 
-    prediction = round(preds[0])
 
-    print(prediction)'''
+    prediction_l =int(math.floor(prediction / 1000.0)) * 1000 - price_range
+
+
+    #Save To the Mongo Database
 
     collection=mongo.db.userinputs
-    input_item= data
     collection.insert_one({'name': name, 'email':email, "make" : make, 'model':model,'year':year,'mileage':km})
 
 
 
-    return render_template('results.html', prediction=prediction)
+
+    return render_template('results.html', predictionh=prediction_h, predictionl=prediction_l)
 
 
 
