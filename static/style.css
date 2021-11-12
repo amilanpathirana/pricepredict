@@ -68,15 +68,16 @@ textarea {
     cursor: pointer;
     outline: none;
     margin-top: 1rem;
+    font-size: large;
 }
 
 .btntp {
     display: block;
     width: 100%;
-    background: rgb(17, 17, 24);
+    background: #333;
     color: #fff;
     padding: 10px 20px;
-    border: none;
+    border:solid black;
     cursor: pointer;
     outline: none;
     margin-top: 1rem;
