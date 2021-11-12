@@ -69,3 +69,25 @@ textarea {
     outline: none;
     margin-top: 1rem;
 }
+
+.btntp {
+    display: block;
+    width: 100%;
+    background: rgb(17, 17, 24);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    margin-top: 1rem;
+    font-size: large;
+}
+
+.flex-parent {
+    display: flex;
+  }
+  
+  .jc-center {
+    justify-content: center;
+  }
+  
