@@ -42,6 +42,11 @@ def index():
     return render_template('index.html', makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
 
 
+@app.route('/sell',methods=["GET","POST"])
+def sell():
+    return render_template('sell.html')
+
+
 @app.route('/calculate', methods=['POST','GET'])
 def calculate():
     name = request.form.get('name')

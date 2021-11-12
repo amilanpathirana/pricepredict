@@ -1,17 +1,8 @@
-{% extends 'layout.html' %} {% block body %}
-
-<div class="container">
-  <div class="flex-parent jc-center">
-    <a href= > <button type="submit" class="btntp">    Home   </button> </a>
-    <a href=calculate > <button type="submit" class="btntp">Check Price</button> </a>
-    <a href=calculate > <button type="submit" class="btntp">    Buy    </button> </a>
-    <a href=sell> <button type="submit" class="btntp">    Sell   </button> </a>
-</div>
-  
-</div>
+{% extends 'layout.html'   %} {% block body %}
 
 
-<div class='container'>
+
+  <div class='container'>
     <center><img src="../static/logo.png" alt="keeyada logo" style="width:200px;height:160px;"></center>
     {% if message %}
     <p class="message">{{message| safe}}</p>
@@ -24,7 +15,8 @@
             <input autofocus autocomplete='off' type="text" placeholder="Name" name='name'></input>
         </div>
         <div class="form-group">
-            <input autofocus autocomplete='off' placeholder='Email' type="text" name='email'></input>
+            <input type="file" id="myFile" name="filename">
+            <input type="submit">
         </div>
 
         <div class="form-group">
@@ -73,4 +65,4 @@
 </div>
 
 
-{% endblock%}
+{% endblock %}
