@@ -88,7 +88,34 @@ textarea {
     display: flex;
   }
   
-  .jc-center {
+.jc-center {
     justify-content: center;
   }
   
+.inputfile{
+    font-size: large;
+}
+
+.upload{
+    width: 100%;
+    background: #333;
+    color: #fff;
+    padding: 10px 40px;
+    border:solid black;
+    cursor: pointer;
+    outline: none;
+    margin-top: 1rem;
+    font-size: large;
+}
+
+.uploadtop{
+    width: 100%;
+    background: rgb(214, 214, 214);
+    color: rgb(53, 41, 7);
+    padding: 10px 40px;
+    border:solid rgb(255, 255, 255);
+    cursor: pointer;
+    outline: none;
+    margin-top: 1rem;
+    font-size: large;
+}

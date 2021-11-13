@@ -8,59 +8,76 @@
     <p class="message">{{message| safe}}</p>
     {% endif %}
 
-    <form action="/calculate" method='POST'>
+    <h1 class = "uploadtop" >Want to sell you vehicle?</h1>
+    <h2 class = "uploadtop">Submit your vehicle details here.</h2>
+
+    <form action="/upload" method='POST' enctype="multipart/form-data">
         
         <div class="form-group">
-
+            <h2 class = "upload" >Your Name</h2>
             <input autofocus autocomplete='off' type="text" placeholder="Name" name='name'></input>
         </div>
+
         <div class="form-group">
-            <input type="file" id="myFile" name="filename">
-            <input type="submit">
+            <h2 class = "upload">Your Email</h2>
+            <input autofocus autocomplete='off' type="text" placeholder="Email" name='email'></input>
+        </div>
+        
+        <div class="form-group">
+            <h2 class = "upload" >Three photos of your vehicle</h2>
+            {{ form.csrf_token }}
+            {{ form.image1 }}
+            {{ form.image2 }}
+            {{ form.image3 }}
+      
+ 
         </div>
 
         <div class="form-group">
+            <h2 class = "upload">Make of your vehicle</h2>
             <select name="make">
             <option disabled selected value="">Make</option>
             {% for make in makes %}
             <option value="{{make}} ">{{make}}</option>
             {% endfor %}
-        </select>
+            </select>
         </div>
 
-
-
         <div class="form-group">
+            <h2 class = "upload">Model of your vehicle</h2>
             <select name="model">
             <option disabled selected value="">Model</option>
             {% for model in models %}
             <option value="{{model}} ">{{model}}</option>
             {% endfor %}
-        </select>
+            </select>
         </div>
 
         <div class="form-group">
+            <h2 class = "upload">Year of your vehicle</h2>
             <select name="year">
             <option disabled selected value="">Year</option>
             {% for year in years %}
             <option value="{{year}} ">{{year}}</option>
             {% endfor %}
-        </select>
+            </select>
         </div>
 
 
         <div class="form-group">
+            <h2 class = "upload">Mileage of your vehicle (km)</h2>
             <select name="km">
             <option disabled selected value="">Mileage</option>
             {% for x in mileage %}
             <option value="{{x}} ">{{x}}</option>
             {% endfor %}
-        </select>
+            </select>
         </div>
 
         <div>
-            <input type="submit" value='Calculate' class="btn">
+            <input type="submit" value='Submit' class="btn">
         </div>
+
     </form>
 </div>
 
