@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request
+from flask import Flask, render_template,request,url_for
 from flask_wtf import FlaskForm
 from wtforms import FileField
 
@@ -100,6 +100,22 @@ def upload():
     collection.insert({'show': False ,'name': name, 'email':email, "make" : make, 'model':model,'year':year,'mileage':km,'image1_name':file1.filename,'image2_name':file2.filename,'image3_name':file3.filename})
 
     return render_template('uploaded.html')
+
+@app.route('/getimage1/<filename>')
+def getimage1(filename):
+    return mongo.send_file(filename)
+
+
+@app.route('/advert/<username>')
+def addvert(username):
+    user=mongo.db.useruploads.find_one_or_404({'name':username})
+    filename=user['image1_name']
+
+    return f'''
+     <h1>{user}</h1>
+     <h1>{filename}</h1>
+     <img src ="{url_for('index',filename=filename)}">
+    '''
 
 
 
