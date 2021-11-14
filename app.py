@@ -15,17 +15,14 @@ import os
 from savedvariables import *
 
 
-
-
+# download the model
 
 model1 = joblib.load('model.pkl')
 
-
+# initializa MongoDB
 mongo=PyMongo()
 
-
-
-
+#Initialize Flask
 app = Flask(__name__)
 
 
@@ -71,25 +68,9 @@ def upload():
     
 
     
-  
-    if not name:
-        return render_template('sell.html',form=form, message='Please Enter Your Name',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-    if not email:
-        return render_template('sell.html',form=form, message='Please Enter Your Email',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-    if not file1:
-        return render_template('sell.html',form=form, message='Please Submit Three Photos',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-    if not file2:
-        return render_template('sell.html',form=form, message='Please Submit Three Photos',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-    if not file3:
-        return render_template('sell.html',form=form, message='Please Submit Three Photos',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-    if not make:
-        return render_template('sell.html',form=form,message='Please Enter Vehicle Make',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-    if not model:
-        return render_template('sell.html',form=form,message='Please Enter Vehicle Model',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-    if not year:
-        return render_template('sell.html',form=form,message='Please Enter Year of Manufacture',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-    if not km:
-        return render_template('sell.html',form=form,message='Please Enter Vehicle Mileage',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
+    if not name or not email or not make or not model or not year or not km or not file1 or not file2 or not file3:
+        return render_template('sell.html',message='Please Enter All Feilds',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE) 
+
 
     collection=mongo.db.useruploads 
     
@@ -131,33 +112,11 @@ def calculate():
     km = request.form.get('km')
 
 
-
-
-    if not name:
-        return render_template('index.html',message='Please Enter Name',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-    
-    if not email:
-        return render_template('index.html',message='Please Enter Email',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-
-    if not make:
-        return render_template('index.html',message='Please Enter Make',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-
-    if not model:
-        return render_template('index.html',message='Please Enter Model',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-
-    if not year:
-        return render_template('index.html',message='Please Enter Year',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-
-    if not km:
-        return render_template('index.html',message='Please Enter Mileage',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
-
-
-    
-
+    if not name or not email or not make or not model or not year or not km:
+        return render_template('index.html',message='Please Enter All Feilds',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
 
    
     idf = pd.DataFrame({'make': [make], 'model': [model], 'year': [ year], 'citympg': [km]})
-
     idf.make = idf.make.str.strip().str.replace(" ", "")
     idf.model= idf.model.str.strip().str.replace(" ", "")
 
@@ -171,9 +130,6 @@ def calculate():
     pkl_file2.close()
     idf['model'] = le_model.transform(idf['model'])
 
-    print(type(make))
-    print(idf)
-
     modelin = np.array(idf)
 
     preds = model1.predict(modelin)
@@ -183,18 +139,12 @@ def calculate():
     
    
     prediction_h =int(math.ceil(prediction / 1000.0)) * 1000 + price_range
-
-
     prediction_l =int(math.floor(prediction / 1000.0)) * 1000 - price_range
 
 
     #Save To the Mongo Database
-
     collection=mongo.db.userinputs
     collection.insert_one({'name': name, 'email':email, "make" : make, 'model':model,'year':year,'mileage':km})
-
-
-
 
     return render_template('results.html', predictionh=prediction_h, predictionl=prediction_l)
 
