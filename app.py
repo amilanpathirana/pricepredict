@@ -1,6 +1,9 @@
+from typing import Collection
 from flask import Flask, render_template,request,url_for
 from flask_wtf import FlaskForm
 from wtforms import FileField
+from flask_nav import Nav
+from flask_nav.elements import Navbar, Subgroup,View,Link,Text,Separator
 
 import pandas as pd
 import pickle as pickle
@@ -11,6 +14,7 @@ from flask_pymongo import PyMongo
 import math
 from werkzeug.utils import secure_filename
 import os
+import gridfs
 
 from savedvariables import *
 
@@ -27,6 +31,17 @@ mongo=PyMongo()
 
 
 app = Flask(__name__)
+nav=Nav(app)
+
+nav.register_element('my_nav_bar',Navbar(
+    'thenav',
+    View('Home','index'),
+    View('Sell','sell'),
+    View('Buy','buy'),
+    View('Contact','contact'),
+      ))
+
+
 
 
 app.config['SECRET_KEY']='secretkey'
@@ -50,6 +65,77 @@ def index():
 def sell():
     form=MyForm()
     return render_template('sell.html',form=form,  makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+
+@app.route('/getimage1',methods=["GET", 'POST'])
+def getimage1(filename):
+    return mongo.send_file(filename)
+
+
+@app.route('/buy',methods=['GET','POST'])
+def buy():
+    fs=gridfs.GridFS(mongo.db)
+
+    print('fs')
+
+    file_collection=mongo.db.useruploads
+    print('fs1')
+    item=file_collection.find({"name":'keith'})
+    print(item)
+    for doc in item:
+        print(doc)
+    name=doc['image1_name']
+    print('fs3')
+    
+    #download image
+    '''
+    data=mongo.db.fs.files.find({'filename': name })
+    print('fs4')
+    i=0
+    for doc in data:
+        print(doc)
+        i=i+1
+        myid=doc['_id']
+        print('fs5')
+        outputdata=fs.get(myid).read()
+        print('fs6')
+        imagename='img'+ str(i)+'.png'
+        output=open(imagename,'wb')
+        print('fs7')
+        output.write(outputdata)
+        print('fs8')
+        output.close()
+        print('download completed')
+
+    '''
+
+    url=url_for('file',filename=name)
+    print(url)
+
+    return render_template('buy.html',url=url)
+
+
+@app.route('/file')
+def file():
+
+    fs=gridfs.GridFS(mongo.db)
+
+    print('fs')
+
+    file_collection=mongo.db.useruploads
+    print('fs1')
+    item=file_collection.find({"name":'keith'})
+    print(item)
+    for doc in item:
+        print(doc)
+    name=doc['image1_name']
+    
+    return mongo.send_file(name)
 
 
 
@@ -92,30 +178,27 @@ def upload():
         return render_template('sell.html',form=form,message='Please Enter Vehicle Mileage',makes=MAKES, models=MODELS, years=YEARS, mileage=MILEAGE)
 
     collection=mongo.db.useruploads 
+
+    fs=gridfs.GridFS(mongo.db)
+    fs.put(file1,filename=file1.filename)
+    print('upload1 completed')
+
+    fs.put(file2,filename=file2.filename)
+    print('upload2 completed')
+
+    fs.put(file3,filename=file3.filename)
+    print('upload3 completed')
+
     
-    mongo.save_file(file1.filename,file1)
-    mongo.save_file(file2.filename,file2)
-    mongo.save_file(file3.filename,file3)
+    #mongo.save_file(file1.filename,file1)
+    #mongo.save_file(file2.filename,file2)
+    #mongo.save_file(file3.filename,file3)
     
     collection.insert({'show': False ,'name': name, 'email':email, "make" : make, 'model':model,'year':year,'mileage':km,'image1_name':file1.filename,'image2_name':file2.filename,'image3_name':file3.filename})
 
     return render_template('uploaded.html')
 
-@app.route('/getimage1/<filename>')
-def getimage1(filename):
-    return mongo.send_file(filename)
 
-
-@app.route('/advert/<username>')
-def addvert(username):
-    user=mongo.db.useruploads.find_one_or_404({'name':username})
-    filename=user['image1_name']
-
-    return f'''
-     <h1>{user}</h1>
-     <h1>{filename}</h1>
-     <img src ="{url_for('index',filename=filename)}">
-    '''
 
 
 
