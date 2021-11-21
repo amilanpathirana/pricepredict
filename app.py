@@ -80,19 +80,17 @@ def getimage1(filename):
 @app.route('/buy',methods=['GET','POST'])
 def buy():
     fs=gridfs.GridFS(mongo.db)
-
-    print('fs')
-
     file_collection=mongo.db.useruploads
-    print('fs1')
-    item=file_collection.find({"name":'keith'})
-    print(item)
+    item=file_collection.find({"show":True})
     for doc in item:
         print(doc)
-    name=doc['image1_name']
-    print('fs3')
+        name1=doc['image1_name']
+        name2=doc['image2_name']
+        name3=doc['image3_name']
+        #names=[name1,name2,name3]
+
     
-    #download image
+    #download image we dont want to download the image
     '''
     data=mongo.db.fs.files.find({'filename': name })
     print('fs4')
@@ -113,11 +111,13 @@ def buy():
         print('download completed')
 
     '''
+    
+    url1=url_for('file',filename=name1)
+    url2=url_for('file',filename=name2)
+    url3=url_for('file',filename=name3)
+    print(url1,url2,url3)
 
-    url=url_for('file',filename=name)
-    print(url)
-
-    return render_template('buy.html',url=url)
+    return render_template('buy.html',url1=url1,url2=url2,url3=url3,name1=name1,name2=name2,name3=name3)
 
 
 @app.route('/file')
