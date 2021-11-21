@@ -4,28 +4,30 @@
     <center><img src="../static/logo.png" alt="keeyada logo" style="width:200px;height:160px;"></center>
     <center>
 
-
-        <div>
-        <h3>{{ name1 }}</h3>
-
-        <img src="{{ url1 }}" >
- 
-        </div>
-
-        <div>
-            <h3>{{ name2 }}</h3>
-    
-            <img src="{{ url2 }}" >
+    <div>
      
-            </div>
 
-            <div>
-                <h3>{{ name3 }}</h3>
+            {% for n in range(length) %}
+
+            <h1>{{n}}</h1>
+
+            {% for i in range(3) %}
+
+            <h3>{{ fullnames[n][i] }}</h3>
+            <img src="{{ fullurls[n][i] }}" >
+
+            {% endfor %}
+
+            {% endfor %}
+
         
-                <img src="{{ url3 }}" >
-         
-                </div>
-            
+
+
+    </div>
+
+  
+        
+          
 
 
     </center>
