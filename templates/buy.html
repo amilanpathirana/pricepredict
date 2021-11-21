@@ -1,6 +1,6 @@
 {% extends "layout.html" %} {% block body %}
 
-<div class="container">
+<div >
     <center><img src="../static/logo.png" alt="keeyada logo" style="width:200px;height:160px;"></center>
     <center>
 
@@ -10,13 +10,18 @@
             {% for n in range(length) %}
 
             <div class="card" style="width: 18rem;">
+
+                
                 <img class="card-img-top" src="{{ fullurls[n][1]}}" >
+
+
                 <div class="card-body">
                   <h5 class="card-title">{{fullyear[n]}} {{fullmake[n]}} {{fullmodel[n]}} </h5>
                   <p class="card-text">Asking Price: Rs 50,000</p>
                   <a href="#" class="btn btn-primary">Contact</a>
                 </div>
             </div>
+            <hr class="solid">
 
 
             {% endfor %}
