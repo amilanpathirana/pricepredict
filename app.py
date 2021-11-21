@@ -127,19 +127,16 @@ def buy():
 
 
 @app.route('/file')
-def file():
-
+def file(name):
+    '''
     fs=gridfs.GridFS(mongo.db)
-
-    print('fs')
-
     file_collection=mongo.db.useruploads
-    print('fs1')
-    item=file_collection.find({"name":'keith'})
-    print(item)
+
+    item=file_collection.find({"show":True})
+
     for doc in item:
         print(doc)
-    name=doc['image1_name']
+    name=doc['image1_name']'''
     
     return mongo.send_file(name)
 
