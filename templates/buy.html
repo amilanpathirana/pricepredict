@@ -9,14 +9,15 @@
 
             {% for n in range(length) %}
 
-            <h1>{{n}}</h1>
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="{{ fullurls[n][1]}}" >
+                <div class="card-body">
+                  <h5 class="card-title">{{fullyear[n]}} {{fullmake[n]}} {{fullmodel[n]}} </h5>
+                  <p class="card-text">Asking Price: Rs 50,000</p>
+                  <a href="#" class="btn btn-primary">Contact</a>
+                </div>
+            </div>
 
-            {% for i in range(3) %}
-
-            <h3>{{ fullnames[n][i] }}</h3>
-            <img src="{{ fullurls[n][i] }}" >
-
-            {% endfor %}
 
             {% endfor %}
 

@@ -85,6 +85,9 @@ def buy():
 
     fullnames=[]
     fullurls=[]
+    fullmodel=[]
+    fullyear=[]
+    fullmake=[]
     for doc in item:
         print(doc)
         name1=doc['image1_name']
@@ -95,8 +98,17 @@ def buy():
         url3=url_for('file',filename=name3)
         names=[name1,name2,name3]
         urls=[url1,url2,url3]
+
+        year=doc['year']
+        model=doc['model']
+        make=doc['make']
+
         fullnames.append(names)
         fullurls.append(urls)
+
+        fullyear.append(year)
+        fullmake.append(make)
+        fullmodel.append(model)
 
 
     
@@ -123,7 +135,7 @@ def buy():
     '''
     length=len(fullnames)
   
-    return render_template('buy.html',fullnames=fullnames,fullurls=fullurls,length=length)
+    return render_template('buy.html',fullnames=fullnames,fullurls=fullurls,fullyear=fullyear,fullmodel=fullmodel,fullmake=fullmake,length=length)
 
 
 @app.route('/file')
