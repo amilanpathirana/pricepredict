@@ -93,9 +93,13 @@ def buy():
         name1=doc['image1_name']
         name2=doc['image2_name']
         name3=doc['image3_name']
-        url1=url_for('file',filename=name1)
-        url2=url_for('file',filename=name2)
-        url3=url_for('file',filename=name3)
+
+        
+        
+        url1=url_for('file1',name=name1)
+        url2=url_for('file2',name=name2)
+        url3=url_for('file3',name=name3)
+
         names=[name1,name2,name3]
         urls=[url1,url2,url3]
 
@@ -138,19 +142,24 @@ def buy():
     return render_template('buy.html',fullnames=fullnames,fullurls=fullurls,fullyear=fullyear,fullmodel=fullmodel,fullmake=fullmake,length=length)
 
 
-@app.route('/file')
-def file(name):
-    '''
-    fs=gridfs.GridFS(mongo.db)
-    file_collection=mongo.db.useruploads
-
-    item=file_collection.find({"show":True})
-
-    for doc in item:
-        print(doc)
-    name=doc['image1_name']'''
-    
+@app.route('/file1/<name>')
+def file1(name):
+  
     return mongo.send_file(name)
+
+
+@app.route('/file2/<name>')
+def file2(name):
+  
+    return mongo.send_file(name)
+
+
+
+@app.route('/file3/<name>')
+def file3(name):
+  
+    return mongo.send_file(name)
+
 
 
 
