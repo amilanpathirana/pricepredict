@@ -1,67 +1,78 @@
 {% extends 'layout.html' %} {% block body %}
 
-
-
-<div class='container'>
-    <center><img src="../static/logo.png" alt="keeyada logo" style="width:200px;height:160px;"></center>
-    {% if message %}
-    <p class="message">{{message| safe}}</p>
-    {% endif %}
-
-    <form action="/calculate" method='POST'>
+<div class="row">
+    <div class="column left"></div>
+    <div class="column middle">
+        <div class='container'>
+            <center><img src="../static/logo.png" alt="keeyada logo" style="width:200px;height:160px;"></center>
+            {% if message %}
+            <p class="message">{{message| safe}}</p>
+            {% endif %}
         
-        <div class="form-group">
-
-            <input autofocus autocomplete='off' type="text" placeholder="Name" name='name'></input>
+            <form action="/calculate" method='POST'>
+                
+                <div class="form-group">
+        
+                    <input autofocus autocomplete='off' type="text" placeholder="Name" name='name'></input>
+                </div>
+                <div class="form-group">
+                    <input autofocus autocomplete='off' placeholder='Email' type="text" name='email'></input>
+                </div>
+        
+                <div class="form-group">
+                    <select name="make">
+                    <option disabled selected value="">Make</option>
+                    {% for make in makes %}
+                    <option value="{{make}} ">{{make}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+        
+        
+        
+                <div class="form-group">
+                    <select name="model">
+                    <option disabled selected value="">Model</option>
+                    {% for model in models %}
+                    <option value="{{model}} ">{{model}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+        
+                <div class="form-group">
+                    <select name="year">
+                    <option disabled selected value="">Year</option>
+                    {% for year in years %}
+                    <option value="{{year}} ">{{year}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+        
+        
+                <div class="form-group">
+                    <select name="km">
+                    <option disabled selected value="">Mileage</option>
+                    {% for x in mileage %}
+                    <option value="{{x}} ">{{x}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+        
+                <div>
+                    <input type="submit" value='Calculate' class="btn">
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <input autofocus autocomplete='off' placeholder='Email' type="text" name='email'></input>
-        </div>
-
-        <div class="form-group">
-            <select name="make">
-            <option disabled selected value="">Make</option>
-            {% for make in makes %}
-            <option value="{{make}} ">{{make}}</option>
-            {% endfor %}
-        </select>
-        </div>
 
 
 
-        <div class="form-group">
-            <select name="model">
-            <option disabled selected value="">Model</option>
-            {% for model in models %}
-            <option value="{{model}} ">{{model}}</option>
-            {% endfor %}
-        </select>
-        </div>
-
-        <div class="form-group">
-            <select name="year">
-            <option disabled selected value="">Year</option>
-            {% for year in years %}
-            <option value="{{year}} ">{{year}}</option>
-            {% endfor %}
-        </select>
-        </div>
 
 
-        <div class="form-group">
-            <select name="km">
-            <option disabled selected value="">Mileage</option>
-            {% for x in mileage %}
-            <option value="{{x}} ">{{x}}</option>
-            {% endfor %}
-        </select>
-        </div>
+    </div>
+    <div class="column right"></div>
+  </div> 
 
-        <div>
-            <input type="submit" value='Calculate' class="btn">
-        </div>
-    </form>
-</div>
+
 
 
 {% endblock%}
